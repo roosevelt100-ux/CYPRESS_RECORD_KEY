@@ -12,6 +12,10 @@
 </head>
 <body>
   <header class="site-header" id="top">
+  <!-- Upload configuration: set values or leave empty to use simulated uploads -->
+  <meta name="upload-strategy" content="cloudinary">
+  <meta name="cloudinary-cloud-name" content=""> <!-- ex: demo -->
+  <meta name="cloudinary-upload-preset" content=""> <!-- unsigned preset name -->
     <a class="brand" href="#inicio" aria-label="Greicin Ateliê - início">
       <img src="assets/Greicin logo sem fundo.png" alt="Greicin Ateliê">
     </a>
@@ -97,30 +101,120 @@
         <button class="filter" data-filter="offwhite">Off-White</button>
         <button class="filter" data-filter="preto">Preto Velvet</button>
       </div>
+
+      <div class="upload-area" aria-label="Upload de fotos">
+        <label class="upload-label">
+          <input type="file" id="photo-upload" accept="image/*" multiple hidden>
+          <button type="button" class="btn" id="upload-trigger">Selecionar fotos</button>
+        </label>
+        <button type="button" class="btn btn-primary" id="upload-submit">Fazer upload</button>
+        <div id="upload-preview" class="upload-preview" aria-live="polite">
+          <p class="muted">Nenhuma imagem selecionada.</p>
+        </div>
+        <p id="upload-status" class="upload-status" aria-hidden="false"></p>
+      </div>
       <div class="product-grid">
         <article class="product" data-category="madeira">
           <div class="product-thumb wood"><span>Porta-Cartões</span></div>
-          <div class="product-info"><h3>Porta-Cartões Escultórico</h3><p>Filamento madeira premium · Personalização de marca</p><button class="product-btn" data-product="Porta-Cartões Escultórico">Quero personalizar</button></div>
+          <div class="product-info">
+            <h3>Porta-Cartões Escultórico</h3>
+            <p>Filamento madeira premium · Personalização de marca</p>
+            <button class="product-btn" data-product="Porta-Cartões Escultórico">Quero personalizar</button>
+            <div class="product-uploader">
+              <label class="upload-label small">
+                <input type="file" class="product-photo-input" accept="image/*" hidden>
+                <button type="button" class="btn" aria-label="Selecionar foto">Selecionar foto</button>
+              </label>
+              <button type="button" class="btn btn-primary product-upload-btn">Enviar foto</button>
+              <div class="product-preview upload-preview" aria-live="polite"></div>
+              <div class="upload-status"></div>
+            </div>
+          </div>
         </article>
         <article class="product" data-category="madeira">
           <div class="product-thumb wood tray"><span>Bubble Tray</span></div>
-          <div class="product-info"><h3>Bandeja de Bolhas · M</h3><p>Madeira premium · Organização de mesa</p><button class="product-btn" data-product="Bandeja de Bolhas · M">Quero personalizar</button></div>
+          <div class="product-info">
+            <h3>Bandeja de Bolhas · M</h3>
+            <p>Madeira premium · Organização de mesa</p>
+            <button class="product-btn" data-product="Bandeja de Bolhas · M">Quero personalizar</button>
+            <div class="product-uploader">
+              <label class="upload-label small">
+                <input type="file" class="product-photo-input" accept="image/*" hidden>
+                <button type="button" class="btn" aria-label="Selecionar foto">Selecionar foto</button>
+              </label>
+              <button type="button" class="btn btn-primary product-upload-btn">Enviar foto</button>
+              <div class="product-preview upload-preview" aria-live="polite"></div>
+              <div class="upload-status"></div>
+            </div>
+          </div>
         </article>
         <article class="product" data-category="offwhite">
           <div class="product-thumb ivory"><span>Wavy</span></div>
-          <div class="product-info"><h3>Lixeira de Mesa Ondulada</h3><p>Off-White · Design contemporâneo</p><button class="product-btn" data-product="Lixeira de Mesa Ondulada">Quero personalizar</button></div>
+          <div class="product-info">
+            <h3>Lixeira de Mesa Ondulada</h3>
+            <p>Off-White · Design contemporâneo</p>
+            <button class="product-btn" data-product="Lixeira de Mesa Ondulada">Quero personalizar</button>
+            <div class="product-uploader">
+              <label class="upload-label small">
+                <input type="file" class="product-photo-input" accept="image/*" hidden>
+                <button type="button" class="btn" aria-label="Selecionar foto">Selecionar foto</button>
+              </label>
+              <button type="button" class="btn btn-primary product-upload-btn">Enviar foto</button>
+              <div class="product-preview upload-preview" aria-live="polite"></div>
+              <div class="upload-status"></div>
+            </div>
+          </div>
         </article>
         <article class="product" data-category="offwhite">
           <div class="product-thumb ivory drawer"><span>Modular</span></div>
-          <div class="product-info"><h3>Gaveteiro Modular Canelado</h3><p>Off-White · Tampa personalizada</p><button class="product-btn" data-product="Gaveteiro Modular Canelado">Quero personalizar</button></div>
+          <div class="product-info">
+            <h3>Gaveteiro Modular Canelado</h3>
+            <p>Off-White · Tampa personalizada</p>
+            <button class="product-btn" data-product="Gaveteiro Modular Canelado">Quero personalizar</button>
+            <div class="product-uploader">
+              <label class="upload-label small">
+                <input type="file" class="product-photo-input" accept="image/*" hidden>
+                <button type="button" class="btn" aria-label="Selecionar foto">Selecionar foto</button>
+              </label>
+              <button type="button" class="btn btn-primary product-upload-btn">Enviar foto</button>
+              <div class="product-preview upload-preview" aria-live="polite"></div>
+              <div class="upload-status"></div>
+            </div>
+          </div>
         </article>
         <article class="product" data-category="preto">
           <div class="product-thumb black organizer"><span>Desk Set</span></div>
-          <div class="product-info"><h3>Organizador Geométrico</h3><p>Preto Velvet/Fosco · Rampa para celular</p><button class="product-btn" data-product="Organizador Geométrico">Quero personalizar</button></div>
+          <div class="product-info">
+            <h3>Organizador Geométrico</h3>
+            <p>Preto Velvet/Fosco · Rampa para celular</p>
+            <button class="product-btn" data-product="Organizador Geométrico">Quero personalizar</button>
+            <div class="product-uploader">
+              <label class="upload-label small">
+                <input type="file" class="product-photo-input" accept="image/*" hidden>
+                <button type="button" class="btn" aria-label="Selecionar foto">Selecionar foto</button>
+              </label>
+              <button type="button" class="btn btn-primary product-upload-btn">Enviar foto</button>
+              <div class="product-preview upload-preview" aria-live="polite"></div>
+              <div class="upload-status"></div>
+            </div>
+          </div>
         </article>
         <article class="product" data-category="preto">
           <div class="product-thumb black president"><span>Presidente</span></div>
-          <div class="product-info"><h3>Kit Unificado “Presidente”</h3><p>Preto Velvet/Fosco · C-Level e ações premium</p><button class="product-btn" data-product="Kit Unificado Presidente">Quero personalizar</button></div>
+          <div class="product-info">
+            <h3>Kit Unificado “Presidente”</h3>
+            <p>Preto Velvet/Fosco · C-Level e ações premium</p>
+            <button class="product-btn" data-product="Kit Unificado Presidente">Quero personalizar</button>
+            <div class="product-uploader">
+              <label class="upload-label small">
+                <input type="file" class="product-photo-input" accept="image/*" hidden>
+                <button type="button" class="btn" aria-label="Selecionar foto">Selecionar foto</button>
+              </label>
+              <button type="button" class="btn btn-primary product-upload-btn">Enviar foto</button>
+              <div class="product-preview upload-preview" aria-live="polite"></div>
+              <div class="upload-status"></div>
+            </div>
+          </div>
         </article>
       </div>
     </section>
