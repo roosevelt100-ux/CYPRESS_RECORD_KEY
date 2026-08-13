@@ -1,0 +1,13 @@
+[build]
+  publish = "."
+  command = ""
+
+# Use this file to configure Netlify behavior. For a simple static site
+# served from the repository root, the above is sufficient. Add redirects
+# or headers sections below if you need them.
+
+# Example redirect (uncomment if you need):
+# [[redirects]]
+#   from = "/old-path"
+#   to = "/new-path"
+#   status = 301
