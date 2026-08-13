@@ -57,6 +57,17 @@ document.querySelector('#quote-form')?.addEventListener('submit', e => {
   status.style.color = '#575551';
 });
 
+// Validation rules for uploads
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
+function validateFile(file){
+  if(!file) return { ok:false, reason: 'Nenhum arquivo.' };
+  if(!ALLOWED_TYPES.includes(file.type)) return { ok:false, reason: 'Tipo de arquivo não suportado. Use JPG, PNG ou WEBP.' };
+  if(file.size > MAX_FILE_SIZE) return { ok:false, reason: `Arquivo muito grande. Máx ${Math.round(MAX_FILE_SIZE/1024/1024)}MB.` };
+  return { ok:true };
+}
+
 // Upload de fotos (Brindes)
 const fileInput = document.querySelector('#photo-upload');
 const uploadTrigger = document.querySelector('#upload-trigger');
@@ -68,7 +79,18 @@ let selectedFiles = [];
 uploadTrigger?.addEventListener('click', () => fileInput.click());
 
 fileInput?.addEventListener('change', (e) => {
-  selectedFiles = Array.from(e.target.files || []);
+  const files = Array.from(e.target.files || []);
+  selectedFiles = [];
+  const errs = [];
+  files.forEach(f => {
+    const v = validateFile(f);
+    if(v.ok) selectedFiles.push(f);
+    else errs.push(`${f.name}: ${v.reason}`);
+  });
+  if(uploadStatus){
+    if(errs.length) { uploadStatus.textContent = errs.join(' | '); uploadStatus.style.color = 'crimson'; }
+    else { uploadStatus.textContent = ''; uploadStatus.style.color = ''; }
+  }
   renderPreviews();
 });
 
@@ -83,7 +105,7 @@ function renderPreviews(){
     const url = URL.createObjectURL(file);
     const div = document.createElement('div');
     div.className = 'upload-thumb';
-    div.innerHTML = `<img src="${url}" alt="${file.name}"><button class="thumb-remove" title="Remover">×</button>`;
+    div.innerHTML = `<img src="${url}" alt="${file.name}"><button class="thumb-remove" title="Remover">×</button><div class="thumb-info">${file.name}<small>${Math.round(file.size/1024)} KB</small></div>`;
     const btn = div.querySelector('.thumb-remove');
     btn.addEventListener('click', () => {
       selectedFiles = selectedFiles.filter(f => f !== file);
@@ -123,7 +145,18 @@ document.querySelectorAll('.product').forEach(product => {
   selectBtn?.addEventListener('click', () => input?.click());
 
   input?.addEventListener('change', (e) => {
-    selected = e.target.files ? e.target.files[0] : null;
+    const f = e.target.files ? e.target.files[0] : null;
+    const v = validateFile(f);
+    if(!v.ok){
+      if(status){ status.textContent = v.reason; status.style.color = 'crimson'; }
+      // clear the input so user can reselect
+      if(input) input.value = '';
+      selected = null;
+      renderProductPreview(preview, null, input, () => { selected = null; });
+      return;
+    }
+    if(status){ status.textContent = ''; status.style.color = ''; }
+    selected = f;
     renderProductPreview(preview, selected, input, () => { selected = null; });
   });
 
@@ -132,6 +165,8 @@ document.querySelectorAll('.product').forEach(product => {
       if(status) { status.textContent = 'Selecione uma imagem antes de enviar.'; status.style.color = 'crimson'; }
       return;
     }
+    // disable button while uploading
+    uploadBtn.disabled = true;
     if(status) { status.textContent = 'Enviando...'; status.style.color = ''; }
     // Escolher estratégia de upload: cloudinary | signed | simulated
     const metaStrategy = document.querySelector('meta[name="upload-strategy"]')?.getAttribute('content') || 'simulated';
@@ -145,18 +180,22 @@ document.querySelectorAll('.product').forEach(product => {
       cloudinaryUpload(selected, cloudName, uploadPreset).then(result => {
         if(status){ status.textContent = 'Imagem enviada (Cloudinary).'; status.style.color = 'green'; }
         selected = null; if(input) input.value = ''; renderProductPreview(preview, null, input, () => {});
+        uploadBtn.disabled = false;
       }).catch(err => {
         if(status){ status.textContent = 'Erro no upload Cloudinary.'; status.style.color = 'crimson'; }
         console.error(err);
+        uploadBtn.disabled = false;
       });
     } else if(metaStrategy === 'signed'){
       // presigned S3 via Netlify Function
       signedUpload(selected).then(() => {
         if(status){ status.textContent = 'Imagem enviada (S3 presigned).'; status.style.color = 'green'; }
         selected = null; if(input) input.value = ''; renderProductPreview(preview, null, input, () => {});
+        uploadBtn.disabled = false;
       }).catch(err => {
         if(status){ status.textContent = 'Erro no upload assinado.'; status.style.color = 'crimson'; }
         console.error(err);
+        uploadBtn.disabled = false;
       });
     } else {
       // Simular upload por produto
@@ -165,6 +204,7 @@ document.querySelectorAll('.product').forEach(product => {
         selected = null;
         if(input) input.value = '';
         renderProductPreview(preview, null, input, () => {});
+        uploadBtn.disabled = false;
       }, 900);
     }
   });
@@ -180,7 +220,7 @@ function renderProductPreview(previewEl, file, inputEl, onRemove){
   const url = URL.createObjectURL(file);
   const div = document.createElement('div');
   div.className = 'upload-thumb';
-  div.innerHTML = `<img src="${url}" alt="${file.name}"><button class="thumb-remove" title="Remover">×</button>`;
+  div.innerHTML = `<img src="${url}" alt="${file.name}"><button class="thumb-remove" title="Remover">×</button><div class="thumb-info">${file.name}<small>${Math.round(file.size/1024)} KB</small></div>`;
   const btn = div.querySelector('.thumb-remove');
   btn.addEventListener('click', () => {
     if(inputEl) inputEl.value = '';
@@ -214,3 +254,44 @@ async function signedUpload(file){
   if(!put.ok) throw new Error('Upload to S3 failed');
   return data; // contains key and possibly public URL
 }
+
+// Debug panel handlers (runtime, does not persist to disk)
+document.addEventListener('DOMContentLoaded', () => {
+  const dbgStrategy = document.getElementById('dbg-strategy');
+  const dbgCloud = document.getElementById('dbg-cloud');
+  const dbgPreset = document.getElementById('dbg-preset');
+  const dbgApply = document.getElementById('dbg-apply');
+  const dbgReset = document.getElementById('dbg-reset');
+  const dbgStatus = document.getElementById('dbg-status');
+  if(!dbgStrategy) return;
+
+  // Initialize fields from meta tags if present
+  const metaStrategy = document.querySelector('meta[name="upload-strategy"]');
+  const metaCloud = document.querySelector('meta[name="cloudinary-cloud-name"]');
+  const metaPreset = document.querySelector('meta[name="cloudinary-upload-preset"]');
+  if(metaStrategy) dbgStrategy.value = metaStrategy.getAttribute('content') || 'simulated';
+  if(metaCloud) dbgCloud.value = metaCloud.getAttribute('content') || '';
+  if(metaPreset) dbgPreset.value = metaPreset.getAttribute('content') || '';
+
+  dbgApply.addEventListener('click', () => {
+    // set or update meta tags at runtime
+    if(metaStrategy) metaStrategy.setAttribute('content', dbgStrategy.value);
+    else {
+      const m = document.createElement('meta'); m.name='upload-strategy'; m.content=dbgStrategy.value; document.head.appendChild(m);
+    }
+    if(metaCloud) metaCloud.setAttribute('content', dbgCloud.value);
+    else { const m = document.createElement('meta'); m.name='cloudinary-cloud-name'; m.content=dbgCloud.value; document.head.appendChild(m); }
+    if(metaPreset) metaPreset.setAttribute('content', dbgPreset.value);
+    else { const m = document.createElement('meta'); m.name='cloudinary-upload-preset'; m.content=dbgPreset.value; document.head.appendChild(m); }
+    dbgStatus.textContent = `Estratégia: ${dbgStrategy.value}`;
+    dbgStatus.style.color = '#2e7d32';
+  });
+
+  dbgReset.addEventListener('click', () => {
+    if(metaStrategy) metaStrategy.setAttribute('content','simulated');
+    if(metaCloud) metaCloud.setAttribute('content','');
+    if(metaPreset) metaPreset.setAttribute('content','');
+    dbgStrategy.value = 'simulated'; dbgCloud.value=''; dbgPreset.value='';
+    dbgStatus.textContent = 'Valores restaurados (simulado).'; dbgStatus.style.color='#666';
+  });
+});

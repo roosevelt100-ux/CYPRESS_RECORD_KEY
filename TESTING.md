@@ -14,7 +14,7 @@ Comandos:
 npm install puppeteer
 node scripts/capture-screenshots.js
 # ou com URL customizada:
-SITE_URL=https://greicin-atelie-site.netlify.app node scripts/capture-screenshots.js
+SITE_URL=https://greicinatelie.netlify.app node scripts/capture-screenshots.js
 ```
 
 As screenshots serão salvas em `screenshots/desktop.png`, `screenshots/tablet.png` e `screenshots/mobile.png`.

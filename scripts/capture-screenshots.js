@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
-const SITE = process.env.SITE_URL || 'https://greicin-atelie-site.netlify.app';
+const SITE = process.env.SITE_URL || 'https://greicinatelie.netlify.app';
 const OUT_DIR = 'screenshots';
 
 const viewports = [
