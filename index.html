@@ -17,7 +17,7 @@
   <meta name="cloudinary-cloud-name" content=""> <!-- ex: demo -->
   <meta name="cloudinary-upload-preset" content=""> <!-- unsigned preset name -->
     <a class="brand" href="#inicio" aria-label="Greicin Ateliê - início">
-      <img src="assets/Greicin logo sem fundo.png" alt="Greicin Ateliê">
+      <img src="assets/Greicin logo.png" alt="Greicin Ateliê">
     </a>
     <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -238,7 +238,7 @@
   </main>
 
   <footer class="footer">
-    <div><img src="assets/Greicin logo sem fundo.png" alt="Greicin Ateliê"></div>
+    <div><img src="assets/Greicin logo.png" alt="Greicin Ateliê"></div>
     <p>Greicin Ateliê · Design Aditivo Premium</p>
     <a href="#top">Voltar ao topo ↑</a>
   </footer>
@@ -255,5 +255,21 @@
   </div>
 
   <script src="js/main.js"></script>
+  <!-- Debug panel: use only for local testing; does not persist secrets to disk -->
+  <div id="upload-debug" style="position:fixed;right:12px;bottom:12px;z-index:60;background:rgba(255,255,255,.96);padding:12px;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.08);font-size:13px;max-width:320px">
+    <strong>Upload debug</strong>
+    <div style="margin-top:8px;display:flex;gap:6px;flex-direction:column">
+      <label style="font-size:11px;color:#666">Estratégia
+        <select id="dbg-strategy"><option value="simulated">simulado</option><option value="cloudinary">cloudinary</option><option value="signed">signed (S3)</option></select>
+      </label>
+      <label style="font-size:11px;color:#666">Cloud name<input id="dbg-cloud" placeholder="cloud name" style="width:100%"></label>
+      <label style="font-size:11px;color:#666">Upload preset<input id="dbg-preset" placeholder="unsigned preset" style="width:100%"></label>
+      <div style="display:flex;gap:8px;justify-content:space-between">
+        <button id="dbg-apply" class="btn">Aplicar</button>
+        <button id="dbg-reset" class="btn">Restaurar</button>
+      </div>
+      <div id="dbg-status" style="font-size:12px;color:#666;margin-top:6px"></div>
+    </div>
+  </div>
 </body>
 </html>
