@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Coleção de brindes corporativos premium do Greicin Ateliê.">
+  <link rel="canonical" href="https://greicin.netlify.app/brindes.html">
+  <title>Greicin Ateliê | Brindes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .catalog-main{padding:150px 7vw 110px;max-width:1280px;margin:auto}
+    .catalog-head{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:55px}
+    .catalog-head h1{font:400 clamp(48px,6vw,82px)/.9 var(--serif);margin:0;max-width:700px}
+    .catalog-head p:not(.eyebrow){color:var(--muted);max-width:430px;margin:0}
+    .catalog-tools{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:35px}
+    .catalog-tools p{margin:0;color:var(--muted);font-size:12px}
+    .upload-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+    .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .product-card{background:#fff;border:1px solid var(--line);overflow:hidden}
+    .product-card img,.product-placeholder{width:100%;height:280px;object-fit:cover;background:var(--soft)}
+    .product-placeholder{display:flex;align-items:center;justify-content:center;padding:25px;text-align:center;font:400 32px/.95 var(--serif);color:#55493d}
+    .product-body{padding:20px 22px 24px}
+    .product-body h2{font:400 30px/.95 var(--serif);margin:0 0 10px}
+    .product-body p{color:var(--muted);font-size:13px;margin:0}
+    .uploaded-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:22px}
+    .uploaded-grid figure{margin:0;background:#fff;border:1px solid var(--line);padding:10px}
+    .uploaded-grid img{width:100%;height:170px;object-fit:cover}
+    .uploaded-grid figcaption{padding:10px 2px 2px;color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    @media(max-width:900px){.catalog-head{align-items:flex-start;flex-direction:column}.product-grid{grid-template-columns:repeat(2,1fr)}.uploaded-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.catalog-main{padding:125px 6vw 75px}.catalog-tools{align-items:flex-start;flex-direction:column}.product-grid{grid-template-columns:1fr}.product-card img,.product-placeholder{height:240px}}
+  </style>
+</head>
+<body>
+  <header class="header" id="header">
+    <a class="logo" href="https://greicin.netlify.app/#inicio"><img src="assets/greicin-logo-premium.png" alt="Greicin Ateliê"></a>
+    <button class="menu" aria-label="Abrir menu">☰</button>
+    <nav>
+      <a href="https://greicin.netlify.app/#inicio">Início</a>
+      <a href="https://greicin.netlify.app/#linhas">Linhas</a>
+      <a href="https://greicin.netlify.app/#galeria">Galeria</a>
+      <a href="https://greicin.netlify.app/#atelie">Ateliê</a>
+      <a href="https://greicin.netlify.app/#orcamento">Orçamento</a>
+      <a class="admin-link" href="brindes.html" aria-current="page">Brindes</a>
+    </nav>
+  </header>
+
+  <main class="catalog-main">
+    <div class="catalog-head">
+      <div><p class="eyebrow">GREICIN ATELIÊ · COLEÇÃO</p><h1>Brindes que permanecem na memória.</h1></div>
+      <p>Conheça algumas peças desenvolvidas para ações corporativas, presentes executivos e experiências de marca.</p>
+    </div>
+    <div class="catalog-tools">
+      <p>Adicione fotos para visualizar novas peças na coleção.</p>
+      <button class="btn dark" id="upload-catalog" type="button">Adicionar fotos</button>
+      <input class="upload-input" id="catalog-files" type="file" accept="image/*" multiple>
+    </div>
+    <section class="product-grid" aria-label="Coleção de brindes">
+      <article class="product-card"><div class="product-placeholder">Porta-Cartões Escultórico</div><div class="product-body"><h2>Porta-Cartões Escultórico</h2><p>Presença orgânica para mesas e ambientes corporativos.</p></div></article>
+      <article class="product-card"><div class="product-placeholder">Bandeja de Bolhas</div><div class="product-body"><h2>Bandeja de Bolhas</h2><p>Organização com textura e personalidade para o dia a dia.</p></div></article>
+      <article class="product-card"><div class="product-placeholder">Kit Presidente</div><div class="product-body"><h2>Kit Presidente</h2><p>Composição premium para presentes institucionais memoráveis.</p></div></article>
+    </section>
+    <div class="uploaded-grid" id="uploaded-catalog" aria-live="polite"></div>
+  </main>
+
+  <footer><img src="assets/Greicin logo.png" alt="Greicin Ateliê"><span>© 2026 Greicin Ateliê · Design Aditivo Premium</span><a href="https://greicin.netlify.app/#inicio">Voltar ao início ↑</a></footer>
+  <script src="js/main.js"></script>
+  <script>
+    const catalogButton = document.querySelector('#upload-catalog');
+    const catalogFiles = document.querySelector('#catalog-files');
+    const uploadedCatalog = document.querySelector('#uploaded-catalog');
+    catalogButton?.addEventListener('click', () => catalogFiles?.click());
+    catalogFiles?.addEventListener('change', () => {
+      uploadedCatalog.innerHTML = '';
+      Array.from(catalogFiles.files || []).filter((file) => file.type.startsWith('image/')).forEach((file) => {
+        const figure = document.createElement('figure');
+        const image = document.createElement('img');
+        const caption = document.createElement('figcaption');
+        image.src = URL.createObjectURL(file);
+        image.alt = file.name;
+        caption.textContent = file.name;
+        figure.append(image, caption);
+        uploadedCatalog.appendChild(figure);
+      });
+    });
+  </script>
+</body>
+</html>
