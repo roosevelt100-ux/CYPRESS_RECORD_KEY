@@ -2,8 +2,14 @@
   "name": "greicin-atelie-site",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "start": "node scripts/serve.js"
+  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.0.0",
     "@aws-sdk/s3-request-presigner": "^3.0.0"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.7.0"
   }
 }

@@ -17,14 +17,11 @@ jobs:
         # Uses the official Cypress GitHub action https://github.com/cypress-io/github-action
         uses: cypress-io/github-action@v7
         with:
-          # Starts web server for E2E tests - replace with your own server invocation
-          # https://docs.cypress.io/app/continuous-integration/overview#Boot-your-server
+          # Starts the static site locally before running E2E tests.
           start: npm start
-          wait-on: 'http://localhost:3000' # Waits for above
-          # Records to Cypress Cloud
-          # https://docs.cypress.io/cloud/get-started/setup
+          wait-on: 'http://localhost:8000'
           record: true
-          parallel: true # Runs test in parallel using settings above
+          parallel: true
         env:
           # For recording and parallelization you must set your CYPRESS_RECORD_KEY
           # in GitHub repo → Settings → Secrets → Actions
