@@ -44,6 +44,26 @@ const GreicinSite = {
       a.addEventListener('click', () => nav?.classList.remove('open'));
     });
 
+    const uploadButton = document.querySelector('#upload-photos');
+    const photoFiles = document.querySelector('#photo-files');
+    const uploadedGallery = document.querySelector('#uploaded-gallery');
+    uploadButton?.addEventListener('click', () => photoFiles?.click());
+    photoFiles?.addEventListener('change', () => {
+      if (!uploadedGallery) return;
+      uploadedGallery.innerHTML = '';
+      Array.from(photoFiles.files || []).forEach((file) => {
+        if (!file.type.startsWith('image/')) return;
+        const figure = document.createElement('figure');
+        const image = document.createElement('img');
+        const caption = document.createElement('figcaption');
+        image.src = URL.createObjectURL(file);
+        image.alt = file.name;
+        caption.textContent = file.name;
+        figure.append(image, caption);
+        uploadedGallery.appendChild(figure);
+      });
+    });
+
     const settings = this.getStoredSettings();
     const number = this.getWhatsAppNumber(settings);
     const wa = (text) => `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
