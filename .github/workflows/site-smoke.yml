@@ -1,4 +1,4 @@
-name: Site smoke test
+name: CI - exploratory site test
 
 on:
   push:
@@ -7,11 +7,14 @@ on:
     branches: [main]
 
 jobs:
-  smoke-test:
+  exploratory-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install test dependencies
+        run: npm install --ignore-scripts
 
       - name: Validate JavaScript
         run: node --check js/main.js
@@ -19,14 +22,24 @@ jobs:
       - name: Run application smoke test
         run: node scripts/smoke-test.js
 
-      - name: Verify static server
+      - name: Run exploratory browser test
         run: |
           node scripts/serve.js > server.log 2>&1 &
           for attempt in {1..12}; do
             if curl --fail --silent http://127.0.0.1:8000 > /dev/null; then
-              exit 0
+              break
             fi
             sleep 1
           done
-          cat server.log
-          exit 1
+          curl --fail --silent http://127.0.0.1:8000 > /dev/null || (cat server.log && exit 1)
+          SITE_URL=http://127.0.0.1:8000 node scripts/exploratory-test.js
+
+      - name: Upload exploratory evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: exploratory-test-evidence
+          path: |
+            artifacts/
+            server.log
+          if-no-files-found: warn
