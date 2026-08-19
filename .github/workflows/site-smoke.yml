@@ -1,0 +1,32 @@
+name: Site smoke test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate JavaScript
+        run: node --check js/main.js
+
+      - name: Run application smoke test
+        run: node scripts/smoke-test.js
+
+      - name: Verify static server
+        run: |
+          node scripts/serve.js > server.log 2>&1 &
+          for attempt in {1..12}; do
+            if curl --fail --silent http://127.0.0.1:8000 > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat server.log
+          exit 1
