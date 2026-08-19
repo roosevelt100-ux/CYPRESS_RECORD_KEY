@@ -18,3 +18,8 @@
 @media (max-width: 1030px) { .header { padding-left: 4vw; padding-right: 4vw; gap: 20px; } .header nav { gap: 17px; } .logo { width: 158px; } }
 @media (max-width: 900px) { .header { height: 78px; padding: 10px 6vw; } .header.scrolled { height: 70px; } .logo { width: 155px; height: 52px; } .logo img { width: 184px; } .header nav { top: calc(100% + 1px); padding: 26px 7vw 30px; background: rgba(248, 245, 239, .98); backdrop-filter: blur(14px); box-shadow: 0 20px 35px rgba(23, 22, 21, .08); } .header nav a { font-size: 10px; padding: 7px 0; } .header nav .nav-cta { display: inline-flex; margin-top: 8px; } .menu { display: block; } }
 @media (max-width: 520px) { .header { padding-left: 5vw; padding-right: 5vw; } .logo { width: 138px; } .logo img { width: 166px; } }
+
+.footer-whatsapp { display: inline-flex; align-items: center; gap: 7px; color: var(--ink); font-weight: 600; transition: color .2s ease; }
+.footer-whatsapp:hover, .footer-whatsapp:focus-visible { color: #1f7a43; }
+.footer-whatsapp svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
+@media (max-width: 900px) { .footer-whatsapp { justify-content: center; } }
