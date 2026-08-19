@@ -39,10 +39,35 @@ const GreicinSite = {
       });
     }
 
-    menu?.addEventListener('click', () => nav?.classList.toggle('open'));
-    document.querySelectorAll('nav a').forEach((a) => {
-      a.addEventListener('click', () => nav?.classList.remove('open'));
+    menu?.addEventListener('click', () => {
+      const isOpen = nav?.classList.toggle('open') || false;
+      menu.classList.toggle('open', isOpen);
+      menu.setAttribute('aria-expanded', String(isOpen));
+      menu.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
     });
+    document.querySelectorAll('nav a').forEach((a) => {
+      a.addEventListener('click', () => {
+        nav?.classList.remove('open');
+        menu?.classList.remove('open');
+        menu?.setAttribute('aria-expanded', 'false');
+        menu?.setAttribute('aria-label', 'Abrir menu');
+      });
+    });
+
+    const sectionLinks = Array.from(document.querySelectorAll('nav a[href^="#"]'));
+    const sections = sectionLinks.map((link) => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    if ('IntersectionObserver' in window && sectionLinks.length) {
+      const observer = new IntersectionObserver((entries) => {
+        const visibleSection = entries.find((entry) => entry.isIntersecting);
+        if (!visibleSection) return;
+        sectionLinks.forEach((link) => {
+          const isCurrent = link.getAttribute('href') === `#${visibleSection.target.id}`;
+          link.toggleAttribute('aria-current', isCurrent);
+          if (isCurrent) link.setAttribute('aria-current', 'page');
+        });
+      }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+      sections.forEach((section) => observer.observe(section));
+    }
 
     const uploadButton = document.querySelector('#upload-photos');
     const photoFiles = document.querySelector('#photo-files');

@@ -17,6 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/overrides.css">
 <style>
   .gallery{background:radial-gradient(circle at top, #2b2927 0%, #1c1a18 52%, #13110f 100%);color:var(--paper)}
   .gallery .eyebrow{color:#aaa49b}
@@ -51,7 +52,7 @@
 </style>
 </head>
 <body>
-<header class="header" id="header"><a class="logo" href="https://greicin.netlify.app/#inicio"><img src="assets/greicin-logo-premium.png" alt="Greicin Ateliê"></a><button class="menu" aria-label="Abrir menu">☰</button><nav><a href="https://greicin.netlify.app/#inicio">Início</a><a href="#linhas">Linhas</a><a href="#galeria">Galeria</a><a href="#atelie">Ateliê</a><a href="#orcamento">Orçamento</a><a class="admin-link" href="brindes.html">Brindes</a></nav></header>
+<header class="header" id="header"><a class="logo" href="#inicio" aria-label="Greicin Ateliê - voltar ao início"><img src="assets/greicin-logo-premium.png" alt="Greicin Ateliê"></a><button class="menu" type="button" aria-label="Abrir menu" aria-controls="main-navigation" aria-expanded="false"><span></span><span></span><span></span></button><nav id="main-navigation" aria-label="Navegação principal"><a href="#inicio" aria-current="page">Início</a><a href="#linhas">Linhas</a><a href="#galeria">Galeria</a><a href="#atelie">Ateliê</a><a href="#orcamento">Orçamento</a><a class="admin-link" href="brindes.html">Brindes</a><a class="nav-cta" href="#orcamento">Solicitar orçamento <span aria-hidden="true">→</span></a></nav></header>
 <main>
 <section class="hero" id="inicio"><div class="hero-copy"><p class="eyebrow">GREICIN ATELIÊ · DESIGN ADITIVO</p><h1>Brindes que transformam <em>marcas</em> em presença.</h1><p>Desenvolvemos brindes corporativos e organizadores de mesa de alto padrão, personalizados para empresas que valorizam sofisticação, exclusividade e design.</p><div class="hero-actions"><a class="btn dark" href="#orcamento">Solicitar orçamento</a><a class="text-link" href="#galeria">Explorar coleção →</a></div></div><div class="hero-image"><img src="assets/greicin-produtos-hero.svg" alt="Coleção de brindes corporativos Greicin Ateliê"></div></section>
 <section class="intro"><p class="eyebrow">UMA NOVA FORMA DE PRESENTEAR</p><h2>Do conceito à peça final, cada detalhe comunica sua marca.</h2><p>O Greicin Ateliê combina manufatura digital, curadoria estética e personalização para criar peças que permanecem na mesa, na memória e na experiência de quem recebe.</p></section>
