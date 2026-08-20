@@ -12,8 +12,8 @@ const GreicinSite = {
   },
 
   getWhatsAppNumber(settings = {}) {
-    const normalized = (settings.whatsapp || '5511999999999').toString().replace(/\D/g, '');
-    return normalized || '5511999999999';
+    const normalized = (settings.whatsapp || '5511954498352').toString().replace(/\D/g, '');
+    return normalized || '5511954498352';
   },
 
   buildWhatsAppMessage(values = {}) {

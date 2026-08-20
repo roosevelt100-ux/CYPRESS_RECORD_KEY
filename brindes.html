@@ -58,15 +58,16 @@
       <input class="upload-input" id="catalog-files" type="file" accept="image/*" multiple>
     </div>
     <section class="product-grid" aria-label="Coleção de brindes">
-      <article class="product-card"><div class="product-placeholder">Porta-Cartões Escultórico</div><div class="product-body"><h2>Porta-Cartões Escultórico</h2><p>Presença orgânica para mesas e ambientes corporativos.</p></div></article>
-      <article class="product-card"><div class="product-placeholder">Bandeja de Bolhas</div><div class="product-body"><h2>Bandeja de Bolhas</h2><p>Organização com textura e personalidade para o dia a dia.</p></div></article>
-      <article class="product-card"><div class="product-placeholder">Kit Presidente</div><div class="product-body"><h2>Kit Presidente</h2><p>Composição premium para presentes institucionais memoráveis.</p></div></article>
+      <article class="product-card showcase-card"><div class="product-placeholder">Porta-Cartões Escultórico</div><div class="product-body"><h2>Porta-Cartões Escultórico</h2><p>Presença orgânica para mesas e ambientes corporativos.</p><div class="showcase-preview" aria-live="polite"></div><input class="upload-input" id="porta-cartoes-files" type="file" accept="image/*" multiple><div class="showcase-actions"><button class="text-link photo-trigger" type="button" data-input="porta-cartoes-files">Adicionar fotos</button><button class="text-link select-product" type="button" data-product="Porta-Cartões Escultórico">Escolher para orçamento →</button></div></div></article>
+      <article class="product-card showcase-card"><div class="product-placeholder">Bandeja de Bolhas</div><div class="product-body"><h2>Bandeja de Bolhas</h2><p>Organização com textura e personalidade para o dia a dia.</p><div class="showcase-preview" aria-live="polite"></div><input class="upload-input" id="bandeja-bolhas-files" type="file" accept="image/*" multiple><div class="showcase-actions"><button class="text-link photo-trigger" type="button" data-input="bandeja-bolhas-files">Adicionar fotos</button><button class="text-link select-product" type="button" data-product="Bandeja de Bolhas">Escolher para orçamento →</button></div></div></article>
+      <article class="product-card showcase-card"><div class="product-placeholder">Kit Presidente</div><div class="product-body"><h2>Kit Presidente</h2><p>Composição premium para presentes institucionais memoráveis.</p><div class="showcase-preview" aria-live="polite"></div><input class="upload-input" id="kit-presidente-files" type="file" accept="image/*" multiple><div class="showcase-actions"><button class="text-link photo-trigger" type="button" data-input="kit-presidente-files">Adicionar fotos</button><button class="text-link select-product" type="button" data-product="Kit Presidente">Escolher para orçamento →</button></div></div></article>
     </section>
     <div class="uploaded-grid" id="uploaded-catalog" aria-live="polite"></div>
   </main>
 
   <footer><img src="assets/Greicin logo.png" alt="Greicin Ateliê"><span>© 2026 Greicin Ateliê · Design Aditivo Premium</span><a href="https://greicin.netlify.app/#inicio">Voltar ao início ↑</a></footer>
   <script src="js/main.js"></script>
+  <script src="js/showcase.js"></script>
   <script>
     const catalogButton = document.querySelector('#upload-catalog');
     const catalogFiles = document.querySelector('#catalog-files');

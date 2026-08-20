@@ -57,6 +57,18 @@ async function run() {
     const formFields = await desktop.$$eval('#quote-form input, #quote-form textarea', (fields) => fields.length);
     assert.ok(formFields >= 6, 'Formulário de orçamento incompleto.');
 
+    const quoteActions = await desktop.$$eval('.quote-actions button', (buttons) => buttons.map((button) => button.textContent.trim()));
+    assert.deepEqual(quoteActions, ['Enviar pelo WhatsApp', 'Limpar', 'Cancelar'], 'Ações do orçamento estão incompletas.');
+
+    const lineSelectors = await desktop.$$('.lines .select-product');
+    assert.equal(lineSelectors.length, 3, 'As três linhas precisam oferecer escolha para orçamento.');
+    await desktop.click('.lines .select-product');
+    assert.equal(await desktop.$eval('input[name="product"]', (input) => input.value), 'Orgânica & Atemporal');
+    await desktop.click('#clear-quote');
+    assert.equal(await desktop.$eval('input[name="product"]', (input) => input.value), 'Orgânica & Atemporal');
+    await desktop.click('#cancel-quote');
+    assert.equal(await desktop.$eval('input[name="product"]', (input) => input.value), '');
+
     const whatsappHref = await desktop.$eval('.footer-whatsapp', (link) => link.getAttribute('href'));
     assert.equal(whatsappHref, 'https://wa.me/5511954498352', 'Contato do WhatsApp no rodapé está incorreto.');
     await desktop.screenshot({ path: path.join(artifactDir, 'desktop.png'), fullPage: true });
@@ -68,6 +80,16 @@ async function run() {
     assert.equal(menuIsOpen, true, 'Menu mobile não abre.');
     await mobile.screenshot({ path: path.join(artifactDir, 'mobile-menu.png'), fullPage: true });
     await mobile.close();
+
+    const catalog = await browser.newPage();
+    await catalog.goto(new URL('/brindes.html', siteUrl).toString(), { waitUntil: 'networkidle2', timeout: 45_000 });
+    assert.equal((await catalog.$$('.product-card .select-product')).length, 3, 'A vitrine de brindes está incompleta.');
+    await Promise.all([
+      catalog.waitForNavigation({ waitUntil: 'networkidle2', timeout: 45_000 }),
+      catalog.click('.product-card .select-product'),
+    ]);
+    assert.equal(await catalog.$eval('input[name="product"]', (input) => input.value), 'Porta-Cartões Escultórico');
+    await catalog.close();
 
     console.log('Exploratory browser test passed.');
   } finally {

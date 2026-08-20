@@ -23,3 +23,13 @@
 .footer-whatsapp:hover, .footer-whatsapp:focus-visible { color: #1f7a43; }
 .footer-whatsapp svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
 @media (max-width: 900px) { .footer-whatsapp { justify-content: center; } }
+
+.showcase-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 20px; }
+.showcase-actions .text-link { background: transparent; padding: 0; color: inherit; cursor: pointer; font-family: inherit; }
+.showcase-preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 18px; }
+.showcase-preview:empty { display: none; }
+.showcase-preview img { width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--line); }
+.quote-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.quote-actions .btn { min-width: 128px; }
+.btn.ghost { background: transparent; color: var(--ink); }
+@media (max-width: 520px) { .showcase-preview { grid-template-columns: repeat(2, 1fr); } .quote-actions .btn { width: 100%; } }
